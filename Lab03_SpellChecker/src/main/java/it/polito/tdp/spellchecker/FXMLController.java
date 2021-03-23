@@ -50,11 +50,15 @@ public class FXMLController {
     	this.txtParoleSbagliate.clear();
     	this.txtTesto.clear();
     	this.dizionario.reset();
+    	this.lblErrori.setText("");
+    	this.lblTempo.setText("");
+    	this.BoxLang.setValue(null);
     }
 
     @FXML
     void handleSpellCheck(ActionEvent event) {
     	String lang = this.BoxLang.getValue();
+    	long tempoI = System.nanoTime();
     	if (lang==null) {
     		this.txtParoleSbagliate.setText("Selezionare una lingua");
     		return;
@@ -66,6 +70,9 @@ public class FXMLController {
     		this.txtParoleSbagliate.setText(this.dizionario.paroleSbagliateString(errori));
     		this.lblErrori.setText("The text contains "+errori.size()+" errors");
     	}
+    	long tempoF= System.nanoTime();
+    	long differenza= tempoF-tempoI;
+    	this.lblTempo.setText("Spell Check completed in "+differenza+" seconds");
     }
 
     @FXML
