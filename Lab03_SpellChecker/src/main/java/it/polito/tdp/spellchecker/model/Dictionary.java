@@ -16,13 +16,16 @@ import java.util.Set;
 public class Dictionary {
 	
 	private Set<String> dizionario;
+	private List<String> dizLista;
 	
 	public Dictionary() {
 		this.dizionario=new HashSet<>();
+		this.dizLista=new ArrayList<>();
 	}
 	
 	public void reset() {
 		this.dizionario.clear();
+		this.dizLista.clear();
 	}
 	
 	public void loadDictionary(String language) {
@@ -33,6 +36,7 @@ public class Dictionary {
 				String word;
 				while ( (word=br.readLine()) !=null ) {
 					dizionario.add(word);
+					this.dizLista.add(word);
 				}
 				br.close();
 				fr.close();
@@ -47,6 +51,7 @@ public class Dictionary {
 				String word;
 				while ( (word=br.readLine()) !=null ) {
 					dizionario.add(word);
+					this.dizLista.add(word);
 				}
 				br.close();
 				fr.close();
@@ -68,9 +73,38 @@ public class Dictionary {
 		return temp;
 	}
 	
+	public List<RichWord> spellCheckTextLinear(List<String> inputText) {
+		List<RichWord> temp= new ArrayList<RichWord>();
+		for (String w : inputText) {
+			RichWord word = new RichWord(w);
+			String s = this.cercaInLista(w);
+			if (s!=null) {
+				word.setStato(true);
+			}else
+				temp.add(word);
+		}
+		return temp;
+	}
+	
+	public List<RichWord> spellCheckTextDichotomic(List<String> inputText) {
+		List<RichWord> temp= new ArrayList<RichWord>();
+		int i=this.dizLista.size()/2;
+		for (String w : inputText) {
+			RichWord word = new RichWord(w);
+			if (w.equals(this.dizLista.get(i))) {
+				word.setStato(true);
+			} else if (w.compareTo(this.dizLista.get(i))<0) {
+				List<String> primaMeta= this.primaMetaLista(dizLista);
+			} else {
+				
+			}
+		}
+		return null;
+	}
+	
 	public List<String> filtraTesto(String text) {
 		String s="";
-		s=text.toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "");
+		s=text.toLowerCase().replaceAll("[.,\\/#!?$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "");
 		List<String> testo = new ArrayList<String>();
 		String[] campi= s.split(" ");
 		for (String x : campi)
@@ -84,6 +118,29 @@ public class Dictionary {
 			s=s+w.toString()+"\n";
 		}
 		return s;
+	}
+	
+	public String cercaInLista(String w) {
+		for (String s : this.dizLista)
+			if (w.equals(s))
+				return s;
+		return null;
+	}
+	
+	public List<String> primaMetaLista (List<String> lista) {
+		List<String> temp= new ArrayList<>();
+		for (int i=0; i<(lista.size()/2); i++) {
+			temp.add(lista.get(i));
+		}
+		return temp;
+	}
+	
+	public List<String> secondaMetaLista (List<String> lista) {
+		List<String> temp= new ArrayList<>();
+		for (int i=(lista.size()/2); i<lista.size(); i++) {
+			temp.add(lista.get(i));
+		}
+		return temp;
 	}
 	
 }

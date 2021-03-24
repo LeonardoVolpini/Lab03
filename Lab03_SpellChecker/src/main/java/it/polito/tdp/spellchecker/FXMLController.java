@@ -66,7 +66,8 @@ public class FXMLController {
     		this.dizionario.loadDictionary(lang);
     		String text = this.txtTesto.getText();
     		List<String> temp=this.dizionario.filtraTesto(text);
-    		List<RichWord> errori=this.dizionario.spellCheckText(temp);
+    		//List<RichWord> errori=this.dizionario.spellCheckText(temp);
+    		List<RichWord> errori=this.dizionario.spellCheckTextLinear(temp);
     		this.txtParoleSbagliate.setText(this.dizionario.paroleSbagliateString(errori));
     		this.lblErrori.setText("The text contains "+errori.size()+" errors");
     	}
