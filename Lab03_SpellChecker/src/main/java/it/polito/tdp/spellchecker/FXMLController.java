@@ -67,13 +67,14 @@ public class FXMLController {
     		String text = this.txtTesto.getText();
     		List<String> temp=this.dizionario.filtraTesto(text);
     		//List<RichWord> errori=this.dizionario.spellCheckText(temp);
-    		List<RichWord> errori=this.dizionario.spellCheckTextLinear(temp);
+    		//List<RichWord> errori=this.dizionario.spellCheckTextLinear(temp);  //RICERCA LIENARE
+    		List<RichWord> errori=this.dizionario.spellCheckTextDichotomic(temp);  //RICERCA DICTOMICA
     		this.txtParoleSbagliate.setText(this.dizionario.paroleSbagliateString(errori));
     		this.lblErrori.setText("The text contains "+errori.size()+" errors");
     	}
     	long tempoF= System.nanoTime();
     	long differenza= tempoF-tempoI;
-    	this.lblTempo.setText("Spell Check completed in "+differenza+" seconds");
+    	this.lblTempo.setText("Spell Check completed in "+differenza+" nanoseconds");
     }
 
     @FXML

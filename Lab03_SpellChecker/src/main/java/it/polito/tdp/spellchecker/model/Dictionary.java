@@ -88,18 +88,25 @@ public class Dictionary {
 	
 	public List<RichWord> spellCheckTextDichotomic(List<String> inputText) {
 		List<RichWord> temp= new ArrayList<RichWord>();
-		int i=this.dizLista.size()/2;
 		for (String w : inputText) {
 			RichWord word = new RichWord(w);
-			if (w.equals(this.dizLista.get(i))) {
-				word.setStato(true);
-			} else if (w.compareTo(this.dizLista.get(i))<0) {
-				List<String> primaMeta= this.primaMetaLista(dizLista);
-			} else {
-				
+			int inizio=0;
+			int fine=dizLista.size();
+			while(inizio!=fine) {
+				int medio=inizio+(fine-inizio)/2;
+				if (w.compareTo(this.dizLista.get(medio))==0) {
+					word.setStato(true);
+					break;
+				}
+				else if (w.compareTo(this.dizLista.get(medio))>0)
+					inizio=medio+1;
+				else
+					fine=medio;
 			}
+			if (word.isStato()==false)
+				temp.add(word);
 		}
-		return null;
+		return temp;
 	}
 	
 	public List<String> filtraTesto(String text) {
@@ -125,22 +132,6 @@ public class Dictionary {
 			if (w.equals(s))
 				return s;
 		return null;
-	}
-	
-	public List<String> primaMetaLista (List<String> lista) {
-		List<String> temp= new ArrayList<>();
-		for (int i=0; i<(lista.size()/2); i++) {
-			temp.add(lista.get(i));
-		}
-		return temp;
-	}
-	
-	public List<String> secondaMetaLista (List<String> lista) {
-		List<String> temp= new ArrayList<>();
-		for (int i=(lista.size()/2); i<lista.size(); i++) {
-			temp.add(lista.get(i));
-		}
-		return temp;
 	}
 	
 }

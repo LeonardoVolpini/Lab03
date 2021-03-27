@@ -13,6 +13,10 @@ public class RichWord {
 		this.stato = stato;
 	}
 
+	public boolean isStato() {
+		return stato;
+	}
+
 	@Override
 	public String toString() {
 		return parola;
